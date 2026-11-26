@@ -156,7 +156,7 @@ timeout above that.
 ## 📡 Without a cable
 
 If Xcode can see your phone over Wi-Fi, use its hardware UDID
-(`uv run iphone-agent devices` lists it):
+(with the cable plugged in, `uv run iphone-agent devices` shows it):
 
 ```sh
 uv run iphone-agent setup --paired-network --udid YOUR_UDID --team YOUR_TEAM_ID --headless-assets
