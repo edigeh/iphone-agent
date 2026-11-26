@@ -1,0 +1,35 @@
+name: Bug report
+description: Something does not work as documented
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you ran, what you expected and what happened instead.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: iphone-agent version or commit
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Mac, Xcode, iPhone model and iOS version
+      placeholder: macOS 27.1, Xcode 27.1, iPhone 15 Pro, iOS 27.2
+    validations:
+      required: true
+  - type: dropdown
+    id: transport
+    attributes:
+      label: Transport
+      options: [USB, Paired network, Network fallback, Not applicable]
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Remove your UDID, phone name, tokens and personal data first.
+      render: text

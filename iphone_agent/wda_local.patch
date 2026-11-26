@@ -1,0 +1,60 @@
+diff --git a/WebDriverAgentRunner/Info.plist b/WebDriverAgentRunner/Info.plist
+--- a/WebDriverAgentRunner/Info.plist
++++ b/WebDriverAgentRunner/Info.plist
+@@ -5,6 +5,6 @@
+ 	<string>en</string>
+ 	<key>CFBundleDisplayName</key>
+-	<string>Mobilerun</string>
++	<string>iPhone Agent</string>
+ 	<key>CFBundleExecutable</key>
+ 	<string>$(EXECUTABLE_NAME)</string>
+ 	<key>CFBundleIdentifier</key>
+diff --git a/WebDriverAgentLib/Utilities/FBVideoStreamSession.m b/WebDriverAgentLib/Utilities/FBVideoStreamSession.m
+--- a/WebDriverAgentLib/Utilities/FBVideoStreamSession.m
++++ b/WebDriverAgentLib/Utilities/FBVideoStreamSession.m
+@@ -15,6 +15,7 @@
+ #import <sys/socket.h>
+ #import <sys/sysctl.h>
+ 
++#import "FBConfiguration.h"
+ #import "FBLogger.h"
+ #import "FBPixelBufferConverter.h"
+ #import "FBScrcpyPacket.h"
+@@ -176,6 +177,7 @@
+ {
+   // Bind the broadcast socket first so that a port conflict fails cheaply.
+   self.broadcaster = [[FBTCPSocket alloc] initWithPort:self.configuration.port];
++  self.broadcaster.interface = FBConfiguration.sharedInstance.bindingIPAddress;
+   self.broadcaster.delegate = self;
+   // Send small NAL units immediately instead of letting Nagle coalesce them.
+   self.broadcaster.noDelay = YES;
+diff --git a/WebDriverAgentLib/Utilities/FBAudioStreamSession.m b/WebDriverAgentLib/Utilities/FBAudioStreamSession.m
+--- a/WebDriverAgentLib/Utilities/FBAudioStreamSession.m
++++ b/WebDriverAgentLib/Utilities/FBAudioStreamSession.m
+@@ -11,6 +11,7 @@
+ #import <mach/mach_time.h>
+ 
+ #import "FBBroadcastProtocol.h"
++#import "FBConfiguration.h"
+ #import "FBLogger.h"
+ #import "FBScrcpyPacket.h"
+ #import "FBTCPSocket.h"
+@@ -73,6 +74,7 @@
+ - (BOOL)startWithError:(NSError **)error
+ {
+   self.broadcaster = [[FBTCPSocket alloc] initWithPort:self.configuration.port];
++  self.broadcaster.interface = FBConfiguration.sharedInstance.bindingIPAddress;
+   self.broadcaster.delegate = self;
+   // Send small Opus packets immediately instead of letting Nagle coalesce them.
+   self.broadcaster.noDelay = YES;
+diff --git a/WebDriverAgentLib/Routing/FBWebServer.m b/WebDriverAgentLib/Routing/FBWebServer.m
+--- a/WebDriverAgentLib/Routing/FBWebServer.m
++++ b/WebDriverAgentLib/Routing/FBWebServer.m
+@@ -331,6 +331,7 @@
+   self.mjpegServer = [[FBMjpegServer alloc] init];
+   self.screenshotsBroadcaster = [[FBTCPSocket alloc]
+                                  initWithPort:(uint16_t)FBConfiguration.sharedInstance.mjpegServerPort];
++  self.screenshotsBroadcaster.interface = FBConfiguration.sharedInstance.bindingIPAddress;
+   self.mjpegServer.socket = self.screenshotsBroadcaster;
+   self.screenshotsBroadcaster.delegate = self.mjpegServer;
+   NSError *error;

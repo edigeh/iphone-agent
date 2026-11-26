@@ -1,0 +1,49 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "iphone-agent"
+version = "0.1.0"
+description = "Let an AI agent use a real iPhone from your Mac, over MCP or a local API"
+readme = "README.md"
+requires-python = ">=3.13"
+license = "GPL-3.0-or-later"
+license-files = ["LICENSE", "THIRD_PARTY.md"]
+keywords = ["iphone", "ios", "mcp", "ai-agent", "automation", "webdriveragent", "testing"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Operating System :: MacOS",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Testing",
+]
+dependencies = ["aiohttp==3.14.5", "pymobiledevice3==11.47.0", "aiortc==1.15.0", "mcp==2.3.0", "pillow==13.0.0"]
+
+[dependency-groups]
+dev = ["pytest==9.2.0", "pytest-asyncio==1.4.1", "ruff==0.17.6"]
+
+[project.scripts]
+iphone-agent = "iphone_agent.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/edigeh/iphone-agent"
+Issues = "https://github.com/edigeh/iphone-agent/issues"
+Changelog = "https://github.com/edigeh/iphone-agent/blob/main/CHANGELOG.md"
+
+[tool.hatch.build.targets.sdist]
+exclude = ["/fixtures", "/.github"]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 140
+
+[tool.ruff.lint]
+select = ["E9", "F"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]

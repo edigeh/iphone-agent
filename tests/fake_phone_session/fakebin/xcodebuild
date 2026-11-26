@@ -1,0 +1,6 @@
+#!/bin/bash
+# Stands in for xcodebuild with FAKE_RUNNER=1: names itself and a child in its process group, then runs until stopped.
+/bin/sleep 3600 &
+echo "$!" > "$FAKE_HOME/xcodebuild.child"
+echo "$$" > "$FAKE_HOME/xcodebuild.pid"
+wait

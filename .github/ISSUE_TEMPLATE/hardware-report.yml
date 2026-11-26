@@ -1,0 +1,29 @@
+name: Hardware report
+description: Tell us a feature worked, or did not, on your iPhone
+labels: [hardware-report]
+body:
+  - type: input
+    id: feature
+    attributes:
+      label: Feature
+      placeholder: webrtc pinch, sms_refresh, paired network reconnect
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: iPhone model, iOS version and transport
+    validations:
+      required: true
+  - type: dropdown
+    id: result
+    attributes:
+      label: Result
+      options: [Worked, Partly worked, Did not work]
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Commands and what happened
+      description: Remove your UDID, phone name, tokens and personal data first.

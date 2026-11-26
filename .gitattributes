@@ -1,0 +1,2 @@
+# Unified diff context markers are part of the bundled patch format.
+*.patch -whitespace
