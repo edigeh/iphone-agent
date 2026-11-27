@@ -53,7 +53,7 @@ class TouchGeometry:
             x, y = portrait_width - 1 - x, portrait_height - 1 - y
         elif self.rotation == 3:
             x, y = portrait_width - 1 - y, x
-        # The recovered normalizer uses unsigned integer division, not rounding.
+        # The device normalizer uses unsigned integer division, not rounding.
         return int(x * 65535 / (portrait_width - 1)), int(y * 65535 / (portrait_height - 1))
 
 

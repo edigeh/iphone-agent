@@ -345,13 +345,13 @@ scrcpy-framed Opus. Stream operations include `*_list`, `*_get`, `*_stop`, and
 `webrtc_ice` accepts `sessionId`, `candidate`, `sdpMid`, `sdpMLineIndex`;
 `webrtc_keepalive`, `webrtc_requestframe`, and `webrtc_close` take `sessionId`.
 Peers use local ICE candidates and a 120-second idle timeout. Their data channels
-accept JSON-RPC actions and the modeled iOS key/text/touch/scroll/clipboard packets.
+accept JSON-RPC actions and binary key/text/touch/scroll/clipboard packets.
 Binary keys, text lengths, touch coordinates and dimensions, pressure, button
 masks, and scroll fields use little-endian encoding. Touch pointer IDs are opaque
 eight-byte values that must stay unchanged through down/move/up. Clipboard lengths
 and sequence IDs use big-endian encoding. Key events support
-printable characters, Shift/Caps state and App Switcher. Scroll events use the
-modeled bounded swipe fallback. Touch gestures support multiple fingers.
+printable characters, Shift/Caps state and App Switcher. Scroll events use a
+bounded swipe fallback. Touch gestures support multiple fingers.
 The existing volume/camera key forwarding is a local extension and remains
 subject to the runner's supported button names.
 Unsupported binary packet types return explicit errors.
@@ -412,7 +412,7 @@ ordinary state reads do not start a backup.
 `sms_list` defaults to `kinds:["message"]`; choose any combination of `message`,
 `reaction` and `system`. `junk` accepts `include` (default), `exclude`, `only`,
 or `unknownSender`. Responses include `kind`, `junk` and `unknownSender` using
-the modeled iOS database rules. Unknown senders exclude messages classified as
+the iOS database rules. Unknown senders exclude messages classified as
 junk. Optional columns use the parser's verified zero/default behavior.
 
 Before changing a cached backup, refresh persists a private incomplete marker.

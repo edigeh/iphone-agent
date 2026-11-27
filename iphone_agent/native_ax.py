@@ -1,4 +1,4 @@
-"""Bounded remote AX decoder and raw-DTX session (recovered v0.6.0 contract)."""
+"""Bounded remote AX decoder and raw-DTX session."""
 from __future__ import annotations
 
 import asyncio
@@ -306,8 +306,7 @@ class AXTree:
             if 0 < pid <= 0x7fffffff:
                 phone["pid"] = pid
         orientation = attributes.get(129)
-        # Numeric AX129 enum semantics are not established by the recovered
-        # contract; only self-describing orientation names can authorize input.
+        # Numeric AX129 values have no established meaning; only self-describing orientation names can authorize input.
         if not isinstance(orientation, str) or orientation not in {"portrait", "portraitUpsideDown", "landscapeLeft", "landscapeRight"}:
             orientation = None
         return {"phone_state": phone, "a11y_tree": tree, "truncated": truncated,

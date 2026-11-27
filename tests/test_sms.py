@@ -598,7 +598,7 @@ def classified_store(store):
 
 
 @pytest.mark.asyncio
-async def test_modeled_message_kind_boundaries_and_default(classified_store):
+async def test_message_kind_boundaries_and_default(classified_store):
     store=classified_store
     all_kinds=['message','reaction','system']
     result=await store.list(kinds=all_kinds,limit=200)
@@ -616,7 +616,7 @@ async def test_modeled_message_kind_boundaries_and_default(classified_store):
 
 
 @pytest.mark.asyncio
-async def test_modeled_junk_unknown_sender_and_protocol_flags(classified_store):
+async def test_junk_unknown_sender_and_protocol_flags(classified_store):
     store=classified_store
     junk=await store.list(junk='only')
     assert {m['id'] for m in junk['messages']}=={2,3,10,12,13}
@@ -656,7 +656,7 @@ async def test_classification_optional_columns_and_incomplete_chat_schema(store)
                for m in result['messages'])
     assert (await store.list(junk='only'))['messages']==[]
     assert (await store.list(junk='unknownSender'))['messages']==[]
-    # The modeled parser ignores blackholed when chat.is_filtered is absent.
+    # The parser ignores blackholed when chat.is_filtered is absent.
     with sqlite3.connect(store._sms_db_path()) as database:
         database.executescript('ALTER TABLE chat ADD COLUMN is_blackholed INTEGER; UPDATE chat SET is_blackholed=1;')
     assert (await store.get(1))['junk'] is False
