@@ -170,7 +170,7 @@ async def test_launches_exact_plan_and_kills_only_owned_group_on_close(product, 
     monkeypatch.setattr(module.os, "killpg", killpg)
     wda = FakeWDA([ConnectionError("not yet"), healthy()])
     runner = module.AppleWDARunner(UDID, BUNDLE_ID, app, wda, home=home,
-                                   bind_host="fd81:8c21:709c::1", port=8123)
+                                   bind_host="fd00:db8:1::1", port=8123)
     await runner.open(timeout=2)
     assert not runner.adopted and runner.process is process
     command, options = commands[0]
@@ -186,7 +186,7 @@ async def test_launches_exact_plan_and_kills_only_owned_group_on_close(product, 
     assert launch_target["TestHostPath"] == str(app)
     assert launch_target["DependentProductPaths"][0] == str(app)
     assert launch_target["TestingEnvironmentVariables"]["paths"] == [str(products / "Debug-iphoneos/Frameworks")]
-    assert launch_target["EnvironmentVariables"]["USE_IP"] == "fd81:8c21:709c::1"
+    assert launch_target["EnvironmentVariables"]["USE_IP"] == "fd00:db8:1::1"
     assert launch_target["EnvironmentVariables"]["USE_PORT"] == "8123"
     assert plan.read_bytes() == original_plan
     assert options["start_new_session"] is True
