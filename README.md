@@ -159,7 +159,7 @@ If Xcode can see your phone over Wi-Fi, use its hardware UDID
 (with the cable plugged in, `uv run iphone-agent devices` shows it):
 
 ```sh
-uv run iphone-agent setup --paired-network --udid YOUR_UDID --team YOUR_TEAM_ID --headless-assets
+uv run iphone-agent setup --source ../WebDriverAgent --paired-network --udid YOUR_UDID --team YOUR_TEAM_ID --headless-assets
 uv run iphone-agent serve --network-fallback --udid YOUR_UDID
 ```
 
