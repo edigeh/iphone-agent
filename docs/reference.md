@@ -350,8 +350,8 @@ Binary keys, text lengths, touch coordinates and dimensions, pressure, button
 masks, and scroll fields use little-endian encoding. Touch pointer IDs are opaque
 eight-byte values that must stay unchanged through down/move/up. Clipboard lengths
 and sequence IDs use big-endian encoding. Key events support
-printable characters, Shift/Caps state and App Switcher. Scroll events use a
-bounded swipe fallback. Touch gestures support multiple fingers.
+printable characters, Shift/Caps state and App Switcher. Each scroll event becomes
+a swipe of 30 points per scroll unit, at most 300 points on each axis. Touch gestures support multiple fingers.
 The existing volume/camera key forwarding is a local extension and remains
 subject to the runner's supported button names.
 Unsupported binary packet types return explicit errors.
@@ -411,9 +411,9 @@ ordinary state reads do not start a backup.
 
 `sms_list` defaults to `kinds:["message"]`; choose any combination of `message`,
 `reaction` and `system`. `junk` accepts `include` (default), `exclude`, `only`,
-or `unknownSender`. Responses include `kind`, `junk` and `unknownSender` using
-the iOS database rules. Unknown senders exclude messages classified as
-junk. Optional columns use the parser's verified zero/default behavior.
+or `unknownSender`. Responses include `kind`, `junk` and `unknownSender`, read
+from the Messages database columns. Unknown senders exclude messages classified as
+junk. A missing optional column counts as zero when classifying a message.
 
 Before changing a cached backup, refresh persists a private incomplete marker.
 Failed or cancelled refreshes block snapshot reads, including existing cursors,
