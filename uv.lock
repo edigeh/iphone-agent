@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.13"
 resolution-markers = [
     "python_full_version >= '3.14'",
@@ -210,11 +210,11 @@ wheels = [
 
 [[package]]
 name = "ansilogs"
-version = "1.1.0"
+version = "1.2.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/6b/e0/4b3b453aec055d6cb3cce3650953a6fabc28e42e586d5400f1db41919398/ansilogs-1.1.0.tar.gz", hash = "sha256:15f0e3581f9e14d0ddadd3795408878ef6d9023966607abadfa718f24baff882", size = 11123, upload-time = "2026-10-19T07:14:42.413Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/57/22/bd196aa83bca307de047b0cc96fb66ebf946bbaec3052dddedea28449cd6/ansilogs-1.2.0.tar.gz", hash = "sha256:55da304534b6853a002585d747add65ae6fefa6cd14da30e1349d649de5a883c", size = 12471, upload-time = "2026-11-12T17:44:10.482Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c6/b2/6dfc605421830719fa46a75a585478ac57e6a1cfd192779c61f2b6612478/ansilogs-1.1.0-py3-none-any.whl", hash = "sha256:8cfea017cb071bed082309c67d086bbf259ce39524d85b1a9d6b0da55af6e0fc", size = 7241, upload-time = "2026-10-19T07:14:41.292Z" },
+    { url = "https://files.pythonhosted.org/packages/4e/f9/abc0c5ea4e28a7beec37fef68146c78d0a3738dedd92a8fdf5fc1c0f7fd1/ansilogs-1.2.0-py3-none-any.whl", hash = "sha256:c1c250c8c5f3d0622208f08fa260682659400276c198362955d3e765a63e7460", size = 7840, upload-time = "2026-11-12T17:44:09.263Z" },
 ]
 
 [[package]]
@@ -241,6 +241,23 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/91/14/cdb0bdb6147a019d2d8a1e144910c6a8d257d0e58f63bbd105bda0fce7dc/apple_compress-0.2.3.tar.gz", hash = "sha256:a1c855cec8bd73210ae9522c53a841ca515ded2f0c9d5b4e728d0d93fee46a29", size = 4399, upload-time = "2024-04-05T00:06:29.841Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/7c/b3/ba911999bf7146457e9bf85d5ccdb9adc0d970250d451954f587f5511123/apple_compress-0.2.3-py3-none-any.whl", hash = "sha256:b4eb22fb45e2e781bb44dc76b94dea7f616f3583fcbb4737ecc53e2a46ab7434", size = 6235, upload-time = "2024-04-05T00:06:28.337Z" },
+]
+
+[[package]]
+name = "apple-symbols"
+version = "0.0.4"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "bytestruct" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/b2/c8/c5d11c16da38ebdff069d2c98047594bd930536519b5d30b679901fb287e/apple_symbols-0.0.4.tar.gz", hash = "sha256:537a3cfdf341b0c13059f8d89a23b5869473d5dabbd68697ea3f2a3cd971a094", size = 29967, upload-time = "2026-11-26T15:08:10.604Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/fe/06/64a412f4a2dd6262fa30462e673aa686436e9fd22ff7e7b028b5ec542ea4/apple_symbols-0.0.4-py3-none-any.whl", hash = "sha256:d7d60f4406ed7f7e2f02f46d5093d66e324aea318bf098340ab10461cd5ed24f", size = 24426, upload-time = "2026-11-26T15:08:09.309Z" },
+]
+
+[package.optional-dependencies]
+remote = [
+    { name = "symbolicator-server" },
 ]
 
 [[package]]
@@ -1025,7 +1042,7 @@ requires-dist = [
     { name = "aiortc", specifier = "==1.15.0" },
     { name = "mcp", specifier = "==2.3.0" },
     { name = "pillow", specifier = "==13.0.0" },
-    { name = "pymobiledevice3", specifier = "==11.47.0" },
+    { name = "pymobiledevice3", specifier = "==11.63.1" },
 ]
 
 [package.metadata.requires-dev]
@@ -1037,7 +1054,7 @@ dev = [
 
 [[package]]
 name = "ipsw-parser"
-version = "1.9.0"
+version = "1.9.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "ansilogs" },
@@ -1047,9 +1064,9 @@ dependencies = [
     { name = "requests" },
     { name = "typer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/67/ca/3e29f8351ee71e31bc6ac67bfbe24405d84863416751fbf58c5385ad7e5c/ipsw_parser-1.9.0.tar.gz", hash = "sha256:4b2f355e0abd307458af4963f9d3aca4d4ab2d73a5f7100d59c000427e444109", size = 60564, upload-time = "2026-10-28T15:42:38.336Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/2c/7f/6785979fc22745f6c5f5ee552ef3d0d76a8344cf8129e97d6f6c390f38fb/ipsw_parser-1.9.2.tar.gz", hash = "sha256:b9b6bcaab2b49691f6ff90aa6703a4e2be7e8ff8f85534e7ba65bb8565dd0db9", size = 61144, upload-time = "2026-11-19T17:04:10.584Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f8/fe/6925e90fc6b8433884b756d0d5e68e540a3a49f9b3e6fba0bd333b2297cf/ipsw_parser-1.9.0-py3-none-any.whl", hash = "sha256:4705f50e49115d18941d18a732177edb2386824f69342befbb1dc828edd7fdfa", size = 41717, upload-time = "2026-10-28T15:42:37.05Z" },
+    { url = "https://files.pythonhosted.org/packages/3e/8b/e1063dbcc09759023c4bdac804e15ad650c39c469ac5b1771221c03a3fa6/ipsw_parser-1.9.2-py3-none-any.whl", hash = "sha256:f010d381433a706b23407d38762b4c96524a9de9332cab67c7874eb17a9cf445", size = 41963, upload-time = "2026-11-19T17:04:09.388Z" },
 ]
 
 [[package]]
@@ -1129,7 +1146,7 @@ name = "loguru"
 version = "0.7.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "colorama", marker = "sys_platform == 'win32'" },
+    { name = "colorama", marker = "python_version < '0'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/3a/05/a1dae3dffd1116099471c643b8924f5aa6524411dc6c63fdae648c4f1aca/loguru-0.7.3.tar.gz", hash = "sha256:19480589e77d47b8d85b2c827ad95d49bf31b0dcde16593892eb51dd18706eb6", size = 63559, upload-time = "2024-12-06T11:20:56.608Z" }
 wheels = [
@@ -1526,16 +1543,16 @@ wheels = [
 
 [[package]]
 name = "pmd-pytcp"
-version = "0.3.8"
+version = "0.3.9"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pmd-net-addr" },
     { name = "pmd-net-proto" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f8/74/e9a79796df33932558913d309fba9015080c4e241cdb61e6280421db4be7/pmd_pytcp-0.3.8.tar.gz", hash = "sha256:a26e76e735a04bb6bbcec0793aadcd4f20f03778fd29971a3e2747ce394e9795", size = 578868, upload-time = "2026-10-16T18:29:00.366Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/f0/2f/829508adca9d96ccb07030dbeb661b5748a1e234e0873b365341067fa83b/pmd_pytcp-0.3.9.tar.gz", hash = "sha256:6429509ac8ba45ba17dee12e14c3d06d7bbadd5c12f0d6d4a961bf4bafe19ca5", size = 579370, upload-time = "2026-11-03T10:19:22.026Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/43/2d/dc4c738d58e9143f74d53bca753d49b48db438b35f1ff8ca974d6efd2d2b/pmd_pytcp-0.3.8-py3-none-any.whl", hash = "sha256:f41cc0a22f83eb3e885d2d4228d094ad5a98e787678a18af1dacf15f77489e04", size = 780507, upload-time = "2026-10-16T18:28:58.289Z" },
+    { url = "https://files.pythonhosted.org/packages/f2/49/4b34cff66f662d54716a6a8fa787dff0250280315005b10566ec87831d87/pmd_pytcp-0.3.9-py3-none-any.whl", hash = "sha256:11968973b38aeea6d748c5da91bb23e3a698f9c20f42e503e975296b6818ba06", size = 780990, upload-time = "2026-11-03T10:19:20.447Z" },
 ]
 
 [[package]]
@@ -1701,14 +1718,17 @@ wheels = [
 
 [[package]]
 name = "pycrashreport"
-version = "2.0.0"
+version = "2.7.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
+    { name = "apple-symbols", extra = ["remote"] },
+    { name = "rich" },
+    { name = "symbolicator-server" },
     { name = "typer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/aa/9c/1e1c2d84f746972cbe4d5e65f816008c64e427fc680f55115aa313683c23/pycrashreport-2.0.0.tar.gz", hash = "sha256:31d5e32faa3a047fe01e923bde3eaf1ec86b23e264babf2fc8f7b61fe4812342", size = 102682, upload-time = "2026-03-30T22:35:19.705Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/27/50/820f600037d90352e6766ebfde805a0fb42cd337efcdaaca0b35b11a3143/pycrashreport-2.7.0.tar.gz", hash = "sha256:5296431bd09650e18ffa08bae7585cfdec293fd68d10d111d92aa86f7c3968a0", size = 105516, upload-time = "2026-11-26T15:20:23.55Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ed/ec/be636536ab13a63e3385a82c841d08ce2a51712ffc2a337cd24afc12e038/pycrashreport-2.0.0-py3-none-any.whl", hash = "sha256:12feb922c3349cdb33b468d105915f5f829c53df25640c5c2241bc4182bdb422", size = 34244, upload-time = "2026-03-30T22:35:18.478Z" },
+    { url = "https://files.pythonhosted.org/packages/6a/30/06e4a87aeb2319ae8db52284aff951d9ac0858ba95fedc473207b2d4a55d/pycrashreport-2.7.0-py3-none-any.whl", hash = "sha256:86b18a6126331451b6608265aa9631f84e3c750b3319bcb2e1fdb93cd80d606e", size = 33710, upload-time = "2026-11-26T15:20:22.061Z" },
 ]
 
 [[package]]
@@ -1975,10 +1995,11 @@ wheels = [
 
 [[package]]
 name = "pymobiledevice3"
-version = "11.47.0"
+version = "11.63.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "ansilogs" },
+    { name = "apple-symbols" },
     { name = "asgiwebdav" },
     { name = "asn1" },
     { name = "av", marker = "sys_platform != 'darwin'" },
@@ -2010,7 +2031,6 @@ dependencies = [
     { name = "pykdebugparser" },
     { name = "python-pcapng" },
     { name = "pytun-pmd3" },
-    { name = "pyusb" },
     { name = "pywin32", marker = "sys_platform == 'win32'" },
     { name = "qh3" },
     { name = "questionary" },
@@ -2022,9 +2042,9 @@ dependencies = [
     { name = "uvicorn" },
     { name = "wsproto" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/a4/84/76659f6c2b9ff05aede54b8a6b0f40a67d6e8959d5c340828dff96f0fca0/pymobiledevice3-11.47.0.tar.gz", hash = "sha256:1377414e91fce11ffc96fae98bfbc7c98281b3f7c759de33388b55450c3e5c71", size = 1776177, upload-time = "2026-10-28T23:35:01.218Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/f4/d1/64fdff98419fadf520fcdcea2a84ccd57968db247cd915213da87e5a1743/pymobiledevice3-11.63.1.tar.gz", hash = "sha256:b0202ed2511146e5feb189fac6949d5adc394e62b7ac225f11fcaf10e347bb09", size = 1914811, upload-time = "2026-11-22T22:46:02.018Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/af/f8/323e39b9a84f8ebaf6b45f52278ab668220a8f73541f7a7557641c4f4c53/pymobiledevice3-11.47.0-py3-none-any.whl", hash = "sha256:ccd9d9be6537cd127f2f0511cc127622a8e6988a5792f66aa188e76a228e357d", size = 1435103, upload-time = "2026-10-28T23:34:59.076Z" },
+    { url = "https://files.pythonhosted.org/packages/6e/68/c90dbee8904e73ef8fc9f4c8d4e99df93e4f16d5560d151e74519da12ad9/pymobiledevice3-11.63.1-py3-none-any.whl", hash = "sha256:91ad5019d071ddee4ffa047ad89c4b18fd4066ac408a573ca5d692184ed20363", size = 1518183, upload-time = "2026-11-22T22:45:59.958Z" },
 ]
 
 [[package]]
@@ -2114,15 +2134,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/5e/8a/6e73c70ddf5fdf9cf359cdc458f38cf795c4a653c870a4a49c8768e5db86/pytun_pmd3-3.0.3.tar.gz", hash = "sha256:7fa822092139b4b77e08fad9233dbd4a6fcca2cf2423b0775db962ca5e87a017", size = 766573, upload-time = "2026-01-27T11:51:54.034Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/37/07/af109c676666747a68da662d0847b71c83e15377578c12d64f0495b828f4/pytun_pmd3-3.0.3-py3-none-any.whl", hash = "sha256:d3e884bb907d6050ba4f9e680392a67d8590dbee47c7ae0b638b13105ae562e1", size = 766465, upload-time = "2026-01-27T11:51:48.463Z" },
-]
-
-[[package]]
-name = "pyusb"
-version = "1.3.1"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/00/6b/ce3727395e52b7b76dfcf0c665e37d223b680b9becc60710d4bc08b7b7cb/pyusb-1.3.1.tar.gz", hash = "sha256:3af070b607467c1c164f49d5b0caabe8ac78dbed9298d703a8dbf9df4052d17e", size = 77281, upload-time = "2025-01-08T23:45:01.866Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/28/b8/27e6312e86408a44fe16bd28ee12dd98608b39f7e7e57884a24e8f29b573/pyusb-1.3.1-py3-none-any.whl", hash = "sha256:bf9b754557af4717fe80c2b07cc2b923a9151f5c08d17bdb5345dac09d6a0430", size = 58465, upload-time = "2025-01-08T23:45:00.029Z" },
 ]
 
 [[package]]
@@ -2423,6 +2434,19 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/48/bb/3d8757f21e9a53d9035c9eb039a777047139a16bfdbedfc7a58241c3d914/starlette-1.10.0.tar.gz", hash = "sha256:b8399098d4c1e3522734f7235dc79b1fc967f96cf139c81e0fa30479e0685f9b", size = 2734356, upload-time = "2026-10-24T15:04:12.342Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/88/2e/947cfe02def9371c07cd5bf5b6b61c829e9aecb9904db02a66cfafbc1eec/starlette-1.10.0-py3-none-any.whl", hash = "sha256:478c0ab3b4ced6e82719849c118fa406f0278a3499c1a898cd15cd31bdc38ce4", size = 80571, upload-time = "2026-10-24T15:04:10.371Z" },
+]
+
+[[package]]
+name = "symbolicator-server"
+version = "0.5.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "rich" },
+    { name = "typer" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/0d/48/bc85224b3031998c305ca83eb64988cb553b5eeeb78b4afa4da2597a1404/symbolicator_server-0.5.0.tar.gz", hash = "sha256:b1df27716fd137dcdb046980fd2b5087bbf7af5a65acf9c35d4710eaf640873d", size = 34381, upload-time = "2026-11-26T15:01:58.754Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/cf/0b/64f536dd28b49570de3526002b6e936e06cacb86f0bf94e5c96cd19ccc62/symbolicator_server-0.5.0-py3-none-any.whl", hash = "sha256:884f09c3792aa6fb6edd41c477c69b8984ec5e751a8a1f83d46a470ded23c3de", size = 36039, upload-time = "2026-11-26T15:01:57.7Z" },
 ]
 
 [[package]]
