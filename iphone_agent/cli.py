@@ -856,7 +856,7 @@ async def run(args):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Audited USB iPhone controller")
+    parser = argparse.ArgumentParser(description="Let an AI agent use a real iPhone from your Mac")
     parser.add_argument("--home", type=Path, default=DEFAULT_HOME)
     sub = parser.add_subparsers(dest="command", required=True)
     for name in ("devices", "doctor", "audit"):
@@ -894,7 +894,7 @@ def main():
     call.add_argument("params", nargs="?", default="{}")
     call.add_argument("--url", default="http://127.0.0.1:8742")
     setup = sub.add_parser("setup")
-    setup.add_argument("--source", type=Path, default=Path(__file__).resolve().parents[2] / "src/github/WebDriverAgent")
+    setup.add_argument("--source", type=Path, required=True, help="WebDriverAgent checkout to build from")
     setup.add_argument("--team", required=True)
     setup.add_argument("--bundle-id", default="org.iphoneagent.WebDriverAgentRunner")
     setup.add_argument("--udid")

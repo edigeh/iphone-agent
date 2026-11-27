@@ -1386,3 +1386,13 @@ async def test_housekeeping_runs_after_the_first_connect_outside_its_deadline(fa
     monkeypatch.setattr(keepawake.ActivityKeepAwake, "open", open_after_a_round_trip)
     await cli.run_controller(args(tmp_path, no_keep_awake=False), first_connect_timeout=0.2)
     assert events.count("tidy") == 1 and events.index("wda.status") < events.index("tidy") < events.index("mcp.run")
+
+
+def test_setup_requires_an_explicit_webdriveragent_source(monkeypatch, tmp_path, capsys):
+    built = []
+    monkeypatch.setattr("iphone_agent.setup.build_runner", lambda *a, **k: built.append(a))
+    monkeypatch.setattr("sys.argv", ["iphone-agent", "--home", str(tmp_path), "setup", "--team", "TEAMID1234"])
+    with pytest.raises(SystemExit) as exited:
+        cli.main()
+    assert exited.value.code == 2 and not built
+    assert "--source" in capsys.readouterr().err

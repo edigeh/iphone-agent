@@ -14,7 +14,7 @@ required. Initial setup requires an unlocked, trusted phone connected through
 USB or the explicitly selected Apple paired network path described below.
 
 ```sh
-cd /path/to/controller
+cd /path/to/iphone-agent
 uv sync
 uv run iphone-agent doctor
 uv run iphone-agent devices
@@ -24,16 +24,9 @@ uv run iphone-agent devices
 opening the controller API. With multiple phones, select their hardware UDID
 using `--udid`; a CoreDevice UUID is a different identifier.
 
-Sign in to Xcode → Settings → Accounts. Build and install WDA using your
-development team ID:
-
-```sh
-uv run iphone-agent setup --team YOUR_TEAM_ID
-```
-
-The default source checkout is `../src/github/WebDriverAgent`, revision
-`8ce9d6f`. Another checkout can be selected with `--source`. For a standalone
-checkout of this controller, clone the BSD-licensed WDA fork:
+Sign in to Xcode → Settings → Accounts. `setup` builds the BSD-licensed WDA
+fork at revision `8ce9d6f` from the checkout that `--source` names, signs it with
+your development team ID and installs it. Clone it next to this repository:
 
 ```sh
 git clone https://github.com/droidrun/WebDriverAgent.git ../WebDriverAgent
@@ -84,14 +77,13 @@ Use a separate `--home` when the saved product belongs to another runner.
 Adoption requires a ready WDA response with the selected bundle identity. The
 same options work with `mcp`. With an explicit `--runner-bundle-id` and no saved
 signed product, the USB launcher uses pymobiledevice3's in-process XCTest path;
-that alternative currently lacks
-physical acceptance on the tested iOS version. Launch failures never silently
+that path has not been tested on a real phone yet. Launch failures never silently
 switch launchers or replay an action.
 
 If Apple sees the phone through its paired network tunnel, use its hardware UDID:
 
 ```sh
-uv run iphone-agent setup --paired-network --udid YOUR_UDID --team YOUR_TEAM_ID --headless-assets
+uv run iphone-agent setup --source ../WebDriverAgent --paired-network --udid YOUR_UDID --team YOUR_TEAM_ID --headless-assets
 uv run iphone-agent serve --paired-network --udid YOUR_UDID
 ```
 
@@ -227,7 +219,7 @@ Configure an MCP client with an absolute path to the installed command:
 {
   "mcpServers": {
     "iphone": {
-      "command": "/absolute/path/to/controller/.venv/bin/iphone-agent",
+      "command": "/absolute/path/to/iphone-agent/.venv/bin/iphone-agent",
       "args": ["mcp"]
     }
   }
@@ -396,8 +388,8 @@ An experimental iOS 27+ adapter can be selected with `--native-rsd-host`,
 an already reachable RSD endpoint. This CLI mode routes tap, swipe and screenshot
 through the native adapter; WDA supplies the remaining actions. The adapter
 validates the phone's UDID, OS version and advertised services. Its remote
-accessibility protocol and orientation transforms have independent static and
-host-test review, but lack iOS 27 hardware acceptance.
+accessibility protocol and orientation transforms are covered by host tests but
+have not been tested on an iOS 27 phone yet.
 
 Native HID currently refuses input without a verified, owned capture lease;
 the CLI does not supply one. Its targeted native capture-stop protocol remains
