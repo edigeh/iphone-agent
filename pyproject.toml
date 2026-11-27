@@ -34,7 +34,7 @@ Issues = "https://github.com/edigeh/iphone-agent/issues"
 Changelog = "https://github.com/edigeh/iphone-agent/blob/main/CHANGELOG.md"
 
 [tool.hatch.build.targets.sdist]
-exclude = ["/fixtures", "/.github"]
+exclude = ["/.github"]
 
 [tool.ruff]
 target-version = "py313"
