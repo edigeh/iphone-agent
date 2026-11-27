@@ -10,7 +10,7 @@ from iphone_agent import network
 
 
 UDID = "DEVICE-UDID"
-IP = "fd81:8c21:709c::1"
+IP = "fd00:db8:1::1"
 
 
 def device_record(*, udid=UDID, ip=IP, pairing="paired", tunnel="connected", identifier="unrelated-CoreDevice-UUID"):
@@ -76,8 +76,8 @@ def test_rejects_non_origin_or_non_literal_ip(url):
 
 @pytest.mark.asyncio
 async def test_exact_hardware_udid_and_tunnel_ip_bind_origin(devicectl):
-    binding = network.NetworkBinding(UDID, "http://[fd81:8c21:709c:0:0:0:0:1]:8100")
-    assert binding.origin == "http://[fd81:8c21:709c::1]:8100"
+    binding = network.NetworkBinding(UDID, "http://[fd00:db8:1:0:0:0:0:1]:8100")
+    assert binding.origin == "http://[fd00:db8:1::1]:8100"
     assert binding.host == IP
     assert binding.port == 8100
     assert await binding.validate() is binding
@@ -93,7 +93,7 @@ async def test_exact_hardware_udid_and_tunnel_ip_bind_origin(devicectl):
 @pytest.mark.parametrize("inactive", ["disconnected", "connecting", "missing-ip"])
 @pytest.mark.parametrize("locked", [False, True])
 async def test_cold_start_bootstraps_paired_target_once_then_resolves_only_fresh_inventory(devicectl, inactive, locked):
-    changed = "fd81:8c21:709c::2"
+    changed = "fd00:db8:1::2"
     devicectl["inventory_sequence"] = [inventory(tunnel="connected" if inactive == "missing-ip" else inactive, ip=None), inventory(ip=changed)]
     devicectl["lock_data"]["result"]["passcodeRequired"] = locked
     binding = await network.NetworkBinding.for_device(UDID)
@@ -305,7 +305,7 @@ async def test_absent_or_disconnected_exact_target_is_transient_and_never_sends_
 
 
 async def test_foreign_record_matching_old_ip_never_masks_exact_target_ip_change(devicectl, monkeypatch):
-    changed = "fd81:8c21:709c::2"
+    changed = "fd00:db8:1::2"
     devicectl["data"] = inventory(device_record(udid="OTHER", identifier="foreign-core-id"), device_record(ip=changed))
     assert (await network.NetworkBinding.for_device(UDID)).host == changed
     binding = network.NetworkBinding(UDID, f"http://[{IP}]:8100")
@@ -321,7 +321,7 @@ async def test_foreign_record_matching_old_ip_never_masks_exact_target_ip_change
     assert binding.host == IP and binding.origin == f"http://[{IP}]:8100"
 
 
-@pytest.mark.parametrize("foreign_ip", [IP, "fd81:8c21:709c:0:0:0:0:1"])
+@pytest.mark.parametrize("foreign_ip", [IP, "fd00:db8:1:0:0:0:0:1"])
 async def test_duplicate_active_ip_across_distinct_devices_is_fatal_before_wda_or_media(devicectl, monkeypatch, foreign_ip):
     devicectl["data"] = inventory(device_record(), device_record(udid="OTHER", identifier="foreign-core-id", ip=foreign_ip))
     requests = []
@@ -370,7 +370,7 @@ async def test_resolves_live_tunnel_origin_for_exact_device(devicectl):
 
 
 @pytest.mark.parametrize("payload,recoverable", [
-    (inventory(ip="fd81:8c21:709c::2"), True),
+    (inventory(ip="fd00:db8:1::2"), True),
     (inventory(ip=None), True),
     (inventory(tunnel="disconnected"), True),
     (inventory(udid="OTHER", ip=None), True),
@@ -430,7 +430,7 @@ async def test_lock_state_rejects_malformed_or_other_device_readback(devicectl, 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("payload, expected", [
     (inventory(udid="OTHER"), "hardware UDID"),
-    (inventory(ip="fd81:8c21:709c::2"), "current tunnel IP"),
+    (inventory(ip="fd00:db8:1::2"), "current tunnel IP"),
     (inventory(pairing="unpaired"), "connected paired"),
     (inventory(tunnel="disconnected"), "connected paired"),
     ({"info": {"outcome": "success"}, "result": {"devices": [{"identifier": UDID}]}}, "hardware UDID"),
@@ -453,7 +453,7 @@ async def test_bound_direct_connection_rechecks_before_open(devicectl):
     assert connection.host == IP and connection.port == 9200
     await connection.open()
     assert len(devicectl["commands"]) == 1
-    devicectl["data"] = inventory(ip="fd81:8c21:709c::2")
+    devicectl["data"] = inventory(ip="fd00:db8:1::2")
     with pytest.raises(network.NetworkBindingError, match="current tunnel IP"):
         await connection.open()
     await connection.close()

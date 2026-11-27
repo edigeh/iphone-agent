@@ -18,7 +18,7 @@ from iphone_agent.wda import WDAError
 
 UDID = "DEVICE-UDID"
 BUNDLE = "org.example.WDA.xctrunner"
-HOST = "fd81:8c21:709c::1"
+HOST = "fd00:db8:1::1"
 
 
 def args(home: Path, *, no_keep_awake=True):
@@ -799,7 +799,7 @@ async def test_usb_apple_startup_cancel_or_deadline_closes_without_fallback(usb_
 async def test_managed_recovery_replaces_bound_session_after_error_receipt_without_replay(fakes, tmp_path, monkeypatch, failure):
     events, state = fakes
     saved_runner(tmp_path)
-    state["hosts"] = [HOST, "fd81:8c21:709c::2"]
+    state["hosts"] = [HOST, "fd00:db8:1::2"]
     if failure == "ip changed":
         error = state["mutation_error_before_effect"] = network.NetworkAddressChangedError("selected phone moved")
         initial_effects = 0
@@ -816,7 +816,7 @@ async def test_managed_recovery_replaces_bound_session_after_error_receipt_witho
         await recovery
         assert host.controller is not first
         assert first.wda.binding.host == HOST
-        assert host.wda.binding.host == "fd81:8c21:709c::2"
+        assert host.wda.binding.host == "fd00:db8:1::2"
         assert len(state["effects"]) == initial_effects
         requests = [r for r in state["records"] if r["event"] == "request"]
         assert [r["action"] for r in requests] == ["tap", "reconnect"]
