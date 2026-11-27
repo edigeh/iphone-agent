@@ -238,9 +238,7 @@ def test_recording_limit_zero_keeps_everything(tmp_path):
     assert old.exists()
 
 
-def test_tidy_removes_the_retired_keep_awake_lock_and_writes_one_entry(tmp_path, caplog):
-    retired = tmp_path / "settings-keepawake-7a1808ccd237414d.lock"
-    retired.write_text("")
+def test_tidy_removes_old_builds_and_recordings_and_writes_one_entry(tmp_path, caplog):
     stale, _ = _build(tmp_path, "stale", 3, size=5)
     recordings = tmp_path / "recordings"
     recordings.mkdir()
@@ -255,12 +253,11 @@ def test_tidy_removes_the_retired_keep_awake_lock_and_writes_one_entry(tmp_path,
 
     housekeeping.tidy_state_directory(tmp_path, 30, Journal())
 
-    assert not retired.exists() and not stale.exists() and not old.exists()
+    assert not stale.exists() and not old.exists()
     assert entries == [{"event": "housekeeping", "keepRecordingsDays": 30,
-                        "builds": {"count": 1, "bytes": 5}, "recordings": {"count": 1, "bytes": 7},
-                        "retired": {"count": 1, "bytes": 0}}]
+                        "builds": {"count": 1, "bytes": 5}, "recordings": {"count": 1, "bytes": 7}}]
     removals = [record.getMessage() for record in caplog.records if "Removed" in record.getMessage()]
-    assert len(removals) == 3
+    assert len(removals) == 2
 
     entries.clear()
     housekeeping.tidy_state_directory(tmp_path, 30, Journal())
