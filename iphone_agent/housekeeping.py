@@ -15,7 +15,6 @@ import time
 
 BUILD_GRACE_SECONDS = 24 * 3600.0
 DEFAULT_KEEP_RECORDINGS_DAYS = 30.0
-RETIRED_PATTERNS = ("settings-keepawake-*.lock",)  # The Settings keep-awake was removed in R18.
 
 _log = logging.getLogger(__name__)
 
@@ -137,23 +136,6 @@ def prune_recordings(directory: Path, keep_days: float) -> list[tuple[Path, int]
     return removed
 
 
-def remove_retired_files(home: Path) -> list[tuple[Path, int]]:
-    removed = []
-    for pattern in RETIRED_PATTERNS:
-        for entry in sorted(Path(home).glob(pattern)):
-            try:
-                info = entry.lstat()
-                if not stat.S_ISREG(info.st_mode):
-                    continue
-                entry.unlink()
-            except OSError as exc:
-                _log.warning("Could not remove unused file %s: %s", entry, exc)
-                continue
-            _log.warning("Removed %s, which no part of this release reads", entry)
-            removed.append((entry, info.st_size))
-    return removed
-
-
 def _total(removed):
     return {"count": len(removed), "bytes": sum(size for _, size in removed)}
 
@@ -163,8 +145,7 @@ def tidy_state_directory(home: Path, keep_recordings_days: float, audit=None) ->
     home = Path(home)
     found = {}
     for kind, prune in (("builds", lambda: prune_builds(home)),
-                        ("recordings", lambda: prune_recordings(home / "recordings", keep_recordings_days)),
-                        ("retired", lambda: remove_retired_files(home))):
+                        ("recordings", lambda: prune_recordings(home / "recordings", keep_recordings_days))):
         try:
             found[kind] = prune()
         except Exception as exc:  # Housekeeping must never keep a controller from starting.
