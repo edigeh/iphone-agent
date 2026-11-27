@@ -22,6 +22,7 @@ _log = logging.getLogger(__name__)
 
 
 _HOME_MODAL_CLASSES = frozenset({"XCUIElementTypeAlert", "XCUIElementTypeSheet", "XCUIElementTypeKeyboard"})
+MODIFIER_KEYCODES = frozenset({57, 58, 59, 60, 113, 114, 115, 117, 118})
 # USB HID consumer page, Power: the side button. A short press locks the phone. WDA's own lock
 # route holds it for half a second, which iOS 27 ignores.
 LOCK_PAGE = 0x0C
@@ -263,8 +264,6 @@ class WDAClient:
         return await self.swipe(5, height / 2, width * 0.65, height / 2, 300)
 
     async def app_switch(self) -> Any:
-        # The App Switcher gesture uses WDA's coordinate press-and-drag:
-        # 50 ms initial press, velocity 1000 points/s, then a 200 ms end hold.
         width, height = await self._screen_size()
         if not all(math.isfinite(size) and size > 1 for size in (width, height)):
             raise WDAError("GET", "/mobilerun/state", 200, "geometry_unavailable",
@@ -407,9 +406,7 @@ class WDAClient:
                 return await self.back()
             if name == 187:
                 return await self.app_switch()
-            # iOS key injection ignores standalone modifiers. Printable
-            # key events carry their state; Shift XOR Caps Lock selects case.
-            if 57 <= name <= 60 or 113 <= name <= 115 or 117 <= name <= 118:
+            if name in MODIFIER_KEYCODES:
                 return None
             shift = bool(meta_state & 0xC1)
             if 29 <= name <= 54:
@@ -523,8 +520,6 @@ class WDAClient:
         """Dispatch the controller's named WDA actions with explicit parameters."""
         p = dict(params)
         p.pop("displayId", None)
-        # The JSON-RPC API spells these fields in camelCase; internal methods
-        # use Python names. Explicitly discard unrelated envelope fields.
         if action == "tap":
             return await self.tap(p["x"], p["y"])
         if action == "swipe":

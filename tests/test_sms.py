@@ -656,7 +656,6 @@ async def test_classification_optional_columns_and_incomplete_chat_schema(store)
                for m in result['messages'])
     assert (await store.list(junk='only'))['messages']==[]
     assert (await store.list(junk='unknownSender'))['messages']==[]
-    # The parser ignores blackholed when chat.is_filtered is absent.
     with sqlite3.connect(store._sms_db_path()) as database:
         database.executescript('ALTER TABLE chat ADD COLUMN is_blackholed INTEGER; UPDATE chat SET is_blackholed=1;')
     assert (await store.get(1))['junk'] is False

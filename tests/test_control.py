@@ -297,8 +297,6 @@ async def test_scrcpy_key_is_dispatched_once_and_bad_packets_do_not_dispatch():
 
 
 def scroll(x=300, y=600, width=1170, height=2532, horizontal=1, vertical=-2, timestamp=None):
-    # The scroll encoder and decoder use little-endian
-    # fields. Its optional trailing field is a frame timestamp, not a display ID.
     packet = b"\x03" + struct.pack("<iiHHhhI", x, y, width, height, horizontal, vertical, 0)
     return packet if timestamp is None else packet + struct.pack("<I", timestamp)
 
@@ -433,8 +431,6 @@ async def test_binary_keydown_passes_modifiers_once_ignores_up_and_repeat_count(
 
 
 async def test_public_encoder_key_text_and_clipboard_literal_wire_fixtures():
-    # Literal wire bytes for key, text and clipboard messages. Key/text
-    # fields are LE; clipboard lengths and acknowledgement sequence stay BE.
     controller = AsyncMock()
     controller.execute.return_value = "héλ"
     channels, channel = ChannelController(controller), Channel()
@@ -463,8 +459,6 @@ async def test_public_encoder_key_text_and_clipboard_literal_wire_fixtures():
 
 @pytest.mark.parametrize("timestamp", [b"", bytes.fromhex("78563412")])
 async def test_public_touch_literal_fixture_preserves_opaque_pointer_identity_and_timing(clock, timestamp):
-    # React writes an opaque pointer BE and all numeric touch fields LE. The
-    # decoder reads that pointer LE; its stable identity is preserved.
     packets = [
         "02 00 0102030405060708 2c010000 58020000 9204 e409 ffff 01000000 01000000",
         "02 00 1112131415161718 2c010000 58020000 9204 e409 ffff 01000000 01000000",

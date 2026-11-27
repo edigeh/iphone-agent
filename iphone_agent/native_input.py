@@ -9,6 +9,8 @@ from pymobiledevice3.remote.core_device.hid_service import (
     UniversalHIDServiceService, TouchscreenContact,
 )
 
+VIRTUAL_SERVICE_ID_FLAG = 1 << 32
+
 
 class InputLease(Protocol):
     """Capture managers may share their stream by reference-counting this interface."""
@@ -132,8 +134,7 @@ class NativeInput:
         async with self._lock:
             await self.open()
             if self.keyboard_id is None:
-                # Distinct virtual surface per owner; service IDs keep bit 32 set.
-                service_id = 0x100000000 | secrets.randbits(32)
+                service_id = VIRTUAL_SERVICE_ID_FLAG | secrets.randbits(32)
                 self.keyboard_id = await self.hid.create_keyboard_service(service_id=service_id)
             for keys in usages:
                 try:
