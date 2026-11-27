@@ -6,6 +6,10 @@ All notable changes are listed here. The format follows
 
 ## [Unreleased]
 
+### Changed
+
+- `setup` requires `--source`, the path to your WebDriverAgent checkout. The previous default pointed to a path that only existed on the maintainer's machine.
+
 ## [0.1.0]
 
 First public release.
