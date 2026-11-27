@@ -132,7 +132,7 @@ class NativeInput:
         async with self._lock:
             await self.open()
             if self.keyboard_id is None:
-                # Distinct virtual surface per owner, keeping the captured bit-32 convention.
+                # Distinct virtual surface per owner; service IDs keep bit 32 set.
                 service_id = 0x100000000 | secrets.randbits(32)
                 self.keyboard_id = await self.hid.create_keyboard_service(service_id=service_id)
             for keys in usages:

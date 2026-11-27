@@ -297,14 +297,14 @@ async def test_scrcpy_key_is_dispatched_once_and_bad_packets_do_not_dispatch():
 
 
 def scroll(x=300, y=600, width=1170, height=2532, horizontal=1, vertical=-2, timestamp=None):
-    # Mobilerun's public encoder and recovered DecodeScroll use little-endian
+    # The scroll encoder and decoder use little-endian
     # fields. Its optional trailing field is a frame timestamp, not a display ID.
     packet = b"\x03" + struct.pack("<iiHHhhI", x, y, width, height, horizontal, vertical, 0)
     return packet if timestamp is None else packet + struct.pack("<I", timestamp)
 
 
 @pytest.mark.parametrize("timestamp", [None, 0x12345678])
-async def test_modeled_scroll_packet_uses_fresh_geometry_and_bounded_wda_path(clock, timestamp):
+async def test_scroll_packet_uses_fresh_geometry_and_bounded_wda_path(clock, timestamp):
     controller = AsyncMock()
     controller.execute.return_value = {"width": 390, "height": 844}
     channels, channel = ChannelController(controller), Channel()
@@ -327,7 +327,7 @@ async def test_modeled_scroll_packet_uses_fresh_geometry_and_bounded_wda_path(cl
         await channels.close()
 
 
-async def test_modeled_scroll_clamps_raw_signed_delta_and_refreshes_geometry(clock):
+async def test_scroll_clamps_raw_signed_delta_and_refreshes_geometry(clock):
     controller = AsyncMock()
     controller.execute.side_effect = [{"width": 390, "height": 844}, None,
                                       {"width": 844, "height": 390}, None]
@@ -416,7 +416,7 @@ async def test_scroll_response_loss_does_not_replay_and_next_scroll_gets_new_geo
         await channels.close()
 
 
-async def test_modeled_binary_keydown_passes_modifiers_once_ignores_up_and_repeat_count():
+async def test_binary_keydown_passes_modifiers_once_ignores_up_and_repeat_count():
     controller = AsyncMock()
     channels, channel = ChannelController(controller), Channel()
     channels.attach(channel)
@@ -433,7 +433,7 @@ async def test_modeled_binary_keydown_passes_modifiers_once_ignores_up_and_repea
 
 
 async def test_public_encoder_key_text_and_clipboard_literal_wire_fixtures():
-    # Literal bytes from mobilerun-react/src/webrtc-messages.ts. Key/text
+    # Literal wire bytes for key, text and clipboard messages. Key/text
     # fields are LE; clipboard lengths and acknowledgement sequence stay BE.
     controller = AsyncMock()
     controller.execute.return_value = "héλ"
@@ -464,7 +464,7 @@ async def test_public_encoder_key_text_and_clipboard_literal_wire_fixtures():
 @pytest.mark.parametrize("timestamp", [b"", bytes.fromhex("78563412")])
 async def test_public_touch_literal_fixture_preserves_opaque_pointer_identity_and_timing(clock, timestamp):
     # React writes an opaque pointer BE and all numeric touch fields LE. The
-    # modeled decoder reads that pointer LE; its stable identity is preserved.
+    # decoder reads that pointer LE; its stable identity is preserved.
     packets = [
         "02 00 0102030405060708 2c010000 58020000 9204 e409 ffff 01000000 01000000",
         "02 00 1112131415161718 2c010000 58020000 9204 e409 ffff 01000000 01000000",
@@ -499,7 +499,7 @@ async def test_public_touch_literal_fixture_preserves_opaque_pointer_identity_an
     touch(0)[:-1], touch(0) + bytes(1), touch(0) + bytes(3), touch(0) + bytes(5),
     bytes.fromhex("09 0102030405060708 00 01000000 61"),
 ])
-async def test_truncated_or_malformed_modeled_wire_packet_cannot_dispatch(packet):
+async def test_truncated_or_malformed_wire_packet_cannot_dispatch(packet):
     controller = AsyncMock()
     channels, channel = ChannelController(controller), Channel()
     channels.attach(channel)

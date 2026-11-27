@@ -163,7 +163,7 @@ async def test_app_clipboard_location_and_proxy_routes(wda_server):
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("action, params", [("global_action", {"action": 3}), ("key", {"key_code": 187})],
-                         ids=["recovered-global", "modeled-keycode"])
+                         ids=["global-action", "keycode"])
 async def test_app_switch_uses_press_and_drag(wda_server, action, params):
     url, requests = wda_server
     async with WDAClient(url) as wda:
@@ -187,7 +187,7 @@ async def test_app_switch_uses_press_and_drag(wda_server, action, params):
     (16, 0x80, "("), (8, 0x100000, "1"),
     (144, 0, "0"), (153, 1, "9"),
 ])
-async def test_modeled_printable_keycodes_reach_text_once(wda_server, key, meta, text):
+async def test_printable_keycodes_reach_text_once(wda_server, key, meta, text):
     url, requests = wda_server
     async with WDAClient(url) as wda:
         await wda.dispatch("key", {"key_code": key, "metaState": meta})
@@ -200,7 +200,7 @@ async def test_modeled_printable_keycodes_reach_text_once(wda_server, key, meta,
     (70, "=", "+"), (71, "[", "{"), (72, "]", "}"), (73, "\\", "|"),
     (74, ";", ":"), (75, "'", '"'), (76, "/", "?"),
 ])
-async def test_modeled_punctuation_key_map_with_shift_and_caps(wda_server, key, plain, shifted):
+async def test_punctuation_key_map_with_shift_and_caps(wda_server, key, plain, shifted):
     url, requests = wda_server
     async with WDAClient(url) as wda:
         await wda.dispatch("key", {"key_code": key})
@@ -214,7 +214,7 @@ async def test_modeled_punctuation_key_map_with_shift_and_caps(wda_server, key, 
     (17, "*"), (18, "#"), (61, "\t"), (62, " "), (77, "@"), (81, "+"),
     (154, "/"), (155, "*"), (156, "-"), (157, "+"), (158, "."), (162, "("), (163, ")"),
 ])
-async def test_modeled_fixed_key_map_ignores_shift_and_caps(wda_server, key, text):
+async def test_fixed_key_map_ignores_shift_and_caps(wda_server, key, text):
     url, requests = wda_server
     async with WDAClient(url) as wda:
         await wda.dispatch("key", {"key_code": key})
@@ -224,14 +224,14 @@ async def test_modeled_fixed_key_map_ignores_shift_and_caps(wda_server, key, tex
 
 
 @pytest.mark.parametrize("key", [57, 58, 59, 60, 113, 114, 115, 117, 118])
-async def test_modeled_modifier_keys_alone_have_no_effect(wda_server, key):
+async def test_modifier_keys_alone_have_no_effect(wda_server, key):
     url, requests = wda_server
     async with WDAClient(url) as wda:
         assert await wda.dispatch("key", {"key_code": key, "metaState": 1}) is None
     assert requests == []
 
 
-async def test_app_switch_refreshes_geometry_and_uses_modeled_integer_coordinates(wda_server):
+async def test_app_switch_refreshes_geometry_and_uses_integer_coordinates(wda_server):
     url, requests = wda_server
     async with WDAClient(url) as wda:
         wda.state = AsyncMock(side_effect=[
@@ -292,7 +292,7 @@ def home_ax_node(kind, bounds, *, identifier="", children=None, clickable=False)
 
 @pytest.fixture
 def home_switcher_state():
-    # Reduced structural shape of the physical R13 capture: the first fully
+    # Reduced structural shape of a real App Switcher tree: the first fully
     # visible card header starts at 83; a partial card starts at 78, and an
     # offscreen placeholder must not become a background target.
     viewport = (0, 0, 393, 852)

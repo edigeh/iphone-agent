@@ -56,7 +56,7 @@ class ChannelController:
                         raise ValueError("Invalid keycode packet")
                     action, key, repeat, meta = struct.unpack("<BIII", data[1:])
                     if action == 0:
-                        # The modeled iOS handler acts once per down packet;
+                        # The key handler acts once per down packet;
                         # Repeat is metadata, not a request to multiply input.
                         params = {"key_code": key}
                         if meta:
@@ -154,7 +154,7 @@ class ChannelController:
                     channel.send(json.dumps({"id": request_id, "error": {"message": str(exc)}}))
 
     async def _scroll(self, data, arrived):
-        # The WDA fork's scroll decoder and its public encoder use little-endian fields.
+        # The scroll encoder and decoder use little-endian fields.
         # The optional uint32 frame timestamp does not authorize stale input;
         # only our local arrival clock controls the operation's age budget.
         if len(data) not in (21, 25):
@@ -179,7 +179,7 @@ class ChannelController:
         point_y = y * geometry["height"] / height
         if not math.isfinite(point_x) or not math.isfinite(point_y):
             raise ValueError("Scroll point scaling exceeded finite geometry")
-        # The recovered WDA fallback applies raw signed deltas at 30 points
+        # The WDA fork's scroll fallback applies raw signed deltas at 30 points
         # per unit, caps each axis at 300 points, and clips to the screen.
         end_x = min(geometry["width"] - 1, max(0, point_x + max(-300, min(300, horizontal * 30))))
         end_y = min(geometry["height"] - 1, max(0, point_y + max(-300, min(300, vertical * 30))))
