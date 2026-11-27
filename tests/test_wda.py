@@ -292,17 +292,14 @@ def home_ax_node(kind, bounds, *, identifier="", children=None, clickable=False)
 
 @pytest.fixture
 def home_switcher_state():
-    # Reduced structural shape of a real App Switcher tree: the first fully
-    # visible card header starts at 83; a partial card starts at 78, and an
-    # offscreen placeholder must not become a background target.
     viewport = (0, 0, 393, 852)
-    switcher = home_ax_node("XCUIElementTypeOther", viewport, identifier="AppSwitcherContentView", children=[
-        home_ax_node("XCUIElementTypeOther", (86, 124, 357, 711), children=[
-            home_ax_node("XCUIElementTypeOther", (86, 83, 358, 125))]),
-        home_ax_node("XCUIElementTypeOther", (292, 119, 567, 715), children=[
-            home_ax_node("XCUIElementTypeOther", (292, 78, 567, 120))]),
-        home_ax_node("XCUIElementTypeOther", (-100, -100, -90, -90)),
-    ])
+    full_card = home_ax_node("XCUIElementTypeOther", (86, 124, 357, 711), children=[
+        home_ax_node("XCUIElementTypeOther", (86, 83, 358, 125))])
+    partial_card = home_ax_node("XCUIElementTypeOther", (292, 119, 567, 715), children=[
+        home_ax_node("XCUIElementTypeOther", (292, 78, 567, 120))])
+    offscreen_placeholder = home_ax_node("XCUIElementTypeOther", (-100, -100, -90, -90))
+    switcher = home_ax_node("XCUIElementTypeOther", viewport, identifier="AppSwitcherContentView",
+                            children=[full_card, partial_card, offscreen_placeholder])
     root = home_ax_node("XCUIElementTypeApplication", viewport, children=[
         home_ax_node("XCUIElementTypeWindow", viewport, children=[switcher]),
         home_ax_node("XCUIElementTypeWindow", viewport, children=[

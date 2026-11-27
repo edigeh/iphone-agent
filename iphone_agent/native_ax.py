@@ -1,4 +1,3 @@
-"""Bounded remote AX decoder and raw-DTX session."""
 from __future__ import annotations
 
 import asyncio
@@ -14,6 +13,8 @@ from pymobiledevice3.dtx.message import DTXMessage, DTXMessageType
 from pymobiledevice3.dtx.structs import DtxFragmentHeader, FRAGMENT_HEADER_MIN_SIZE
 
 AX_SERVICE = "com.apple.accessibility.axAuditDaemon.remoteAXService"
+AX_INTERFACE_ORIENTATION = 129
+ORIENTATION_NAMES = frozenset({"portrait", "portraitUpsideDown", "landscapeLeft", "landscapeRight"})
 MAX_FRAME = 10_000_000
 ROLES = {1: "Application", 2: "Button", 3: "Toggle", 6: "Heading", 7: "Image", 8: "Link", 9: "RadioButton", 13: "Adjustable", 14: "StaticText", 15: "TextField", 17: "TextArea", 19: "PopUpButton"}
 SUBROLES = {0: "None", 1: "SearchField", 2: "TabButton", 3: "Switch", 4: "Map", 5: "SecureTextField"}
@@ -305,9 +306,8 @@ class AXTree:
             pid = struct.unpack_from("<I", raw)[0]
             if 0 < pid <= 0x7fffffff:
                 phone["pid"] = pid
-        orientation = attributes.get(129)
-        # Numeric AX129 values have no established meaning; only self-describing orientation names can authorize input.
-        if not isinstance(orientation, str) or orientation not in {"portrait", "portraitUpsideDown", "landscapeLeft", "landscapeRight"}:
+        orientation = attributes.get(AX_INTERFACE_ORIENTATION)
+        if not isinstance(orientation, str) or orientation not in ORIENTATION_NAMES:
             orientation = None
         return {"phone_state": phone, "a11y_tree": tree, "truncated": truncated,
                 "generation": self.generation, "interfaceOrientation": orientation}

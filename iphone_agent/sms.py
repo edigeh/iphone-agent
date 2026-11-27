@@ -260,7 +260,6 @@ class MessageStore:
     @classmethod
     def _classification_expressions(cls, database: sqlite3.Connection,
                                     columns: set[str]) -> tuple[str, str, str]:
-        """Apply the iOS database's optional-column fallbacks."""
         def numeric(name: str) -> str:
             return f"COALESCE(m.{name}, 0)" if name in columns else "0"
 
@@ -536,8 +535,6 @@ class MessageStore:
         digits = digits[1:] if digits.startswith("+") else digits[2:]
         if not re.fullmatch(r"[1-9][0-9]{6,14}", digits):
             raise SMSUnsupported("Backup phone number has no unambiguous international format")
-        # The fallback exposes only the normalized receiving number;
-        # absent SIM IDs, slot, carrier and display name remain omitted.
         return {"subscriptions": [{"phoneNumber": "+" + digits}]}
 
     async def subscriptions(self) -> dict[str, Any]:
@@ -546,7 +543,6 @@ class MessageStore:
 
     @staticmethod
     def _protocol_message(message: dict[str, Any]) -> dict[str, Any]:
-        """Expose known SMSMessage fields using the RPC camelCase spelling."""
         result = {
             "id": message["guid"] or str(message["id"]),
             "direction": message["direction"],

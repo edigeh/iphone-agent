@@ -29,6 +29,8 @@ from pymobiledevice3.remote.remotexpc import remoted_handshake_uuid
 from .native_ax import AX_SERVICE, NativeAX
 from .native_input import NativeInput
 
+HID_COORDINATE_MAX = 65535
+
 
 class NativeUnsupported(RuntimeError):
     pass
@@ -53,8 +55,7 @@ class TouchGeometry:
             x, y = portrait_width - 1 - x, portrait_height - 1 - y
         elif self.rotation == 3:
             x, y = portrait_width - 1 - y, x
-        # The device normalizer uses unsigned integer division, not rounding.
-        return int(x * 65535 / (portrait_width - 1)), int(y * 65535 / (portrait_height - 1))
+        return int(x * HID_COORDINATE_MAX / (portrait_width - 1)), int(y * HID_COORDINATE_MAX / (portrait_height - 1))
 
 
 class NativeClient:
